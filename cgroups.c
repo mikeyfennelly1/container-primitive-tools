@@ -1,20 +1,84 @@
 #include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <stdbool.h>
+#include <string.h>
 
 #define CGROUP_PATH "/sys/fs/cgroup/my_cgroup"
 
-// creating a control group involves interacting directly with
-// the linux filesystem. Read the below code
-int createControlGroup() {
-    if (mkdir(CGROUP_PATH, 0755) != 0) {
-        return 1;
+bool dirExists(const char *path) {
+    struct stat info;
+
+    if (stat(path, &info) != 0) {
+        return false;
+    } else if (info.st_mode & S_IFDIR) {
+        return true;
+    } else {
+        return false;
     }
-    printf("Cgroup created at: %s\n", CGROUP_PATH);
+}
+
+int create_cgroup() {
+    bool existsAlready = dirExists(CGROUP_PATH);
+    if (!existsAlready) {
+        if (mkdir(CGROUP_PATH, 0755) != 0) {
+            perror("mkdir");
+            exit(EXIT_FAILURE);
+        }
+        printf("Cgroup created at: %s\n", CGROUP_PATH);
+    }
     return 0;
 }
 
-void setControlGroupLimit(const char *filename, const char *value) {
+void set_cgroup_limit(const char *filename, const char *value) {
     char filepath[256];
     snprintf(filepath, sizeof(filepath), "%s/%s", CGROUP_PATH, filename);
+    int fd = open(filepath, O_WRONLY);
+    if (fd < 0) {
+        perror("open");
+        exit(EXIT_FAILURE);
+    }
 
+    if (write(fd, value, strlen(value)) < 0) {
+        perror("write");
+        exit(EXIT_FAILURE);
+    }
+    close(fd);
+}
+
+void assign_to_cgroup(pid_t pid) {
+    char filepath[256];
+    snprintf(filepath, sizeof(filepath), "%s/cgroup.procs", CGROUP_PATH);
+
+    FILE *file = fopen(filepath, "w");
+    if (!file) {
+        perror("fopen");
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(file, "%d", pid);
+    fclose(file);
+    printf("Assigned process %d to the cgroup\n", pid);
+}
+
+int main() {
+    int euid = geteuid();
+    printf("%d", euid);
+    if (euid != 0) {
+        perror("Elevated permissions required.");
+        exit(EXIT_FAILURE);
+    }
+    create_cgroup();
+
+    set_cgroup_limit("cpu.max", "100000 100000");
+
+    assign_to_cgroup(getpid());
+
+    printf("cgroup created, sim workload\n");
+    for (int i = 0; i < 100000; i++)
+        printf("%d\n", i);
+
+    return 0;
 }
