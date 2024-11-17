@@ -63,22 +63,22 @@ void assign_to_cgroup(pid_t pid) {
     printf("Assigned process %d to the cgroup\n", pid);
 }
 
-int main() {
-    int euid = geteuid();
-    printf("%d", euid);
-    if (euid != 0) {
-        perror("Elevated permissions required.");
-        exit(EXIT_FAILURE);
-    }
-    create_cgroup();
-
-    set_cgroup_limit("cpu.max", "100000 100000");
-
-    assign_to_cgroup(getpid());
-
-    printf("cgroup created, sim workload\n");
-    for (int i = 0; i < 100000; i++)
-        printf("%d\n", i);
-
-    return 0;
-}
+// int main() {
+//     int euid = geteuid();
+//     if (euid != 0) {
+//         perror("Elevated permissions required.");
+//         exit(EXIT_FAILURE);
+//     }
+//     create_cgroup();
+//
+//     set_cgroup_limit("cpu.max", "100000 100000");
+//
+//     assign_to_cgroup(getpid());
+//
+//     printf("cgroup created, sim workload\n");
+//     while (1) {
+//         sleep(1000000);
+//     }
+//
+//     return 0;
+// }
