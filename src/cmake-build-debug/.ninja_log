@@ -1,0 +1,5 @@
+# ninja log v6
+1	18	1731770973946617730	CMakeFiles/container_primitive_tools.dir/main.c.o	58d7eec9c9f51efd
+1	35	1731797280087837066	CMakeFiles/container_primitive_tools.dir/cgroups.c.o	bccccd002a512734
+0	12	1731771003949914914	CMakeFiles/container_primitive_tools.dir/tests/getCGroupCount.c.o	58f9ec3a2e253936
+35	52	1731797280121837243	container_primitive_tools	96e0a896ace8183d
