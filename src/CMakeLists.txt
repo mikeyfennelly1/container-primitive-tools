@@ -14,4 +14,6 @@ add_executable(container_primitive_tools
         uts_namespace.c
         uts_namespace.c
         uts_namespace.c
-        uts_namespace.c)
+        uts_namespace.c
+        ethernet_pairing.c
+        ethernet_pairing.c)

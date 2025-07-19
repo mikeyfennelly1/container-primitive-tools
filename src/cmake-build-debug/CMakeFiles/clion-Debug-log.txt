@@ -1,1 +1,13 @@
-CMakeLists.txt not found in /home/mfennelly/projects/container-primitive-tools Select CMakeLists.txt
+/home/mfennelly/Downloads/clion-2024.2.1/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/mfennelly/Downloads/clion-2024.2.1/bin/ninja/linux/x64/ninja -G Ninja -S /home/mfennelly/projects/container-primitive-tools/src -B /home/mfennelly/projects/container-primitive-tools/src/cmake-build-debug
+-- Configuring done (0.0s)
+CMake Error at CMakeLists.txt:8 (add_executable):
+  Cannot find source file:
+
+    cgroups.h
+
+
+CMake Error at CMakeLists.txt:8 (add_executable):
+  No SOURCES given to target: container_primitive_tools
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

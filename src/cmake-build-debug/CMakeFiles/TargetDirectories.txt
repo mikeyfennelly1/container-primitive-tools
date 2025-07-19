@@ -1,3 +1,0 @@
-/home/mfennelly/projects/container-primitive-tools/cmake-build-debug/CMakeFiles/container_primitive_tools.dir
-/home/mfennelly/projects/container-primitive-tools/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/mfennelly/projects/container-primitive-tools/cmake-build-debug/CMakeFiles/rebuild_cache.dir
